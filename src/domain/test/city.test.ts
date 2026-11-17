@@ -1,13 +1,17 @@
 import { describe, beforeEach, test, expect } from "vitest";
 import City, { calculateDurationDays } from "../city.ts";
+import Accommodation from "../accommodation.ts";
 
 function createCity(): City {
+  let aco = new Accommodation("Hotel Lago", 1000);
+
   return new City(
     "TestCity",
     "TestCountry",
     new Date("2023-05-01"),
     new Date("2023-05-04"),
     "Notas",
+    aco
   );
 }
 
@@ -22,9 +26,27 @@ describe("City name", () => {
   });
 
   test("should throw error if city name is empty", () => {
-    // TODO: Implementar validación de nombre vacío en la clase City
+    expect(() => {
+      city.setName("");
+    }).toThrow(Error);
   });
 });
+
+describe("City Accommodation", () => {
+  let aco = new Accommodation("Hotel Lago", 1000);
+  let city: City;
+  beforeEach(() => {
+    city = createCity();
+  });
+
+  test("Validar nombre de getAccommodation", () => {
+    expect(city.getAccomodation().name).toBe(aco.name);
+  });
+
+  test("Validar costo de getAccommodation", () => {
+    expect(city.getAccomodation().cost).toBe(aco.cost);
+  });
+})
 
 describe("City country", () => {
   let city: City;
@@ -33,7 +55,7 @@ describe("City country", () => {
   });
 
   test("should set country correctly", () => {
-    // TODO: Implementar test para validar país
+    expect(city.getCountry()).toBe("TestCountry");
   });
 
   test("should throw error if country is not a string", () => {
@@ -155,11 +177,15 @@ describe("Duration in days", () => {
   });
 
   test("should calculate duration as 1 day if dateFrom equals dateTo", () => {
+    let aco = new Accommodation("Hotel Lago", 1000);
+
     const singleDayCity = new City(
       "SingleDayCity",
       "TestCountry",
       new Date("2023-05-01"),
       new Date("2023-05-01"),
+      "Notas",
+      aco
     );
     expect(singleDayCity.getDurationDays()).toBe(1);
   });
