@@ -1,5 +1,6 @@
 import TripManager from "./domain/tripManager.ts";
 import City from "./domain/city.ts";
+import Accommodation from "./domain/accommodation.ts";
 
 const manager = new TripManager();
 const form = document.getElementById("city-form") as HTMLFormElement | null;
@@ -23,14 +24,19 @@ function renderCities(): void {
     const notesHtml = notesText
       ? notesText
       : '<span class="text-muted">Sin datos</span>';
+    const accoName = city.getAccomodation().name;
+    const accoPrice = city.getAccomodation().cost;
+
     tr.innerHTML = `<td>
     <strong>${city.getName()}</strong>
     </td>
-    <td>${country}</td>
+    <td><span class="badge text-dark">${country}</span></td>
     <td>${duration ? `${duration} días` : "—"}</td>
     <td>${dateFrom}</td>
     <td>${dateTo}</td>
-    <td>${notesHtml}</td>`;
+    <td>${notesHtml}</td>
+    <td>${accoName}</td>
+    <td>${accoPrice}</td>`;
     citiesTbody.appendChild(tr);
   });
 }
@@ -47,6 +53,20 @@ function handleCityFormSubmit(e: SubmitEvent): void {
     .value;
   const notes = (document.getElementById("city-notes") as HTMLTextAreaElement)
     .value;
+  const accoName = (document.getElementById("acco-name") as HTMLInputElement).value;
+  const accoPrice = parseInt((document.getElementById("acco-price") as HTMLInputElement).value);
+
+  if (accoName.trim() === "") {
+    showToast("Error", "El nombre no puede estar vacio", "danger");
+    return;
+  }
+
+  else if (accoPrice < 0) {
+    showToast("Error", "El precio debe ser un numero mayor o igual a cero", "danger");
+    return;
+  }
+
+  const acco = new Accommodation(accoName, accoPrice);
 
   const city = new City(
     name,
@@ -54,6 +74,7 @@ function handleCityFormSubmit(e: SubmitEvent): void {
     new Date(dateFrom),
     new Date(dateTo),
     notes,
+    acco
   );
   if (!city) {
     showToast("Error", "No se pudo crear la ciudad", "danger");
