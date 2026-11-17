@@ -12,7 +12,7 @@ export class Accommodation {
   }
 
   set name(aName: string){
-    let nameNew = aName.trim();
+    const nameNew = aName.trim();
 
     if(nameNew === ""){
       throw new Error("El nombre es obligatorio");

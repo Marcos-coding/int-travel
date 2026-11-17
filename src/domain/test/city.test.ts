@@ -3,7 +3,7 @@ import City, { calculateDurationDays } from "../city.ts";
 import Accommodation from "../accommodation.ts";
 
 function createCity(): City {
-  let aco = new Accommodation("Hotel Lago", 1000);
+  const aco = new Accommodation("Hotel Lago", 1000);
 
   return new City(
     "TestCity",
@@ -33,7 +33,7 @@ describe("City name", () => {
 });
 
 describe("City Accommodation", () => {
-  let aco = new Accommodation("Hotel Lago", 1000);
+  const aco = new Accommodation("Hotel Lago", 1000);
   let city: City;
   beforeEach(() => {
     city = createCity();
@@ -177,7 +177,7 @@ describe("Duration in days", () => {
   });
 
   test("should calculate duration as 1 day if dateFrom equals dateTo", () => {
-    let aco = new Accommodation("Hotel Lago", 1000);
+    const aco = new Accommodation("Hotel Lago", 1000);
 
     const singleDayCity = new City(
       "SingleDayCity",

@@ -4,7 +4,7 @@ import City from "../city.ts";
 import Accommodation from "../accommodation.ts";
 
 function createCity(name: string): City {
-  let aco = new Accommodation("Hotel Lago", 1000);
+  const aco = new Accommodation("Hotel Lago", 1000);
 
   return new City(
     name,
@@ -18,9 +18,9 @@ function createCity(name: string): City {
 
 describe("TripManager", () => {
   let manager: TripManager;
-  let city1 = createCity("Montevideo");
-  let city2 = createCity("Artigas");
-  let city3 = createCity("Salto");
+  const city1 = createCity("Montevideo");
+  const city2 = createCity("Artigas");
+  const city3 = createCity("Salto");
 
   beforeEach(() => {
     manager = new TripManager();
